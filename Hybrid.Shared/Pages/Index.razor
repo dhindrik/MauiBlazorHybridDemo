@@ -16,16 +16,21 @@
     private List<string> Data { get; set; } = new List<string>();
 
     private string? Latitude { get; set; }
-        private string? Longitude { get; set; }
+    private string? Longitude { get; set; }
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
-            await base.OnAfterRenderAsync(firstRender);
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (!firstRender)
+            return;
 
             var position = await geoService.GetPosition();
 
             Latitude = position.Latitude.ToString();
             Longitude = position.Longitude.ToString();
+
+            StateHasChanged();
         }
 
         protected override async Task OnInitializedAsync()
